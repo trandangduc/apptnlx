@@ -20,7 +20,7 @@ class _ChudePageState extends State<ChudePage> {
   }
 
   Future<List<Category>> fetchCategories() async {
-    final response = await http.get(Uri.parse('http://192.168.1.73:5254/api/Category/user'));
+    final response = await http.get(Uri.parse('http://192.168.1.8:5254/api/Category/user'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -47,7 +47,7 @@ class _ChudePageState extends State<ChudePage> {
     };
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.73:5254/api/exam'),
+      Uri.parse('http://192.168.1.8:5254/api/exam'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(examData),
     );
@@ -67,8 +67,15 @@ class _ChudePageState extends State<ChudePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Danh sách chủ đề'),
-        backgroundColor: Colors.teal,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal.shade700,
+        elevation: 0,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
       ),
       body: FutureBuilder<List<Category>>(
         future: categories,
@@ -88,6 +95,7 @@ class _ChudePageState extends State<ChudePage> {
                 return GestureDetector(
                   onTap: () {
                     createExam(category.categoryId);
+
                     // Điều hướng đến trang câu hỏi khi người dùng nhấn vào một chủ đề
                     Navigator.push(
                       context,
